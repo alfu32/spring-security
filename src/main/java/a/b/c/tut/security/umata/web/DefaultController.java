@@ -1,6 +1,5 @@
 package a.b.c.tut.security.umata.web;
 
-import org.springframework.context.annotation.Role;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
