@@ -1,0 +1,67 @@
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    cache: false
+################### H2 Console Configuration ##########################
+  h2:
+    console:
+      enabled: true
+      path: /h2
+#################### DataSource Configuration ##########################
+  datasource:
+    ####### H2
+    url: jdbc:h2:mem:registration_02;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    ##### MySQL
+    #url: jdbc:mysql://localhost:3306/registration_02?createDatabaseIfNotExist=true
+    #username: tutorialuser
+    #password: tutorialmy5ql
+#################### Hibernate Configuration ##########################
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+################### JavaMail Configuration ##########################
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    protocol: smtps
+    username: ioan.alferaru@gmail.com
+    password: Sc0r3s*ftr011s
+    properties:
+      mail:
+        transport:
+          protocol: smtps
+        smtps:
+          auth: true
+          starttls:
+            enable: true
+          timeout: 8000
+  main:
+    allow-bean-definition-overriding: true
+support:
+  email=ioan.alferaru@gmail.com
+#    5am every day
+purge:
+  cron:
+    expression: 0 0 5 * * ?
+google:
+  recaptcha:
+# Uncomment the keys to enable captcha
+    #key:
+    #  site: 6LfaHiITAAAAAAgZBHl4ZUZAYk5RlOYTr6m2N34X
+    #  secret: 6LfaHiITAAAAANpDTA_Zflwib95IhDqg2SNRLt4U
+    #  threshold: 0.5
+# recaptcha v3 keys
+    key:
+      site: 6LefKOAUAAAAAE9c8M_Das3vwhlMPmkFTAzvxokN
+      secret: 6LefKOAUAAAAAGs0hOsCoOBu14TKDGu100LkpnVo
+      threshold: 0.5
+# uncomment this property to see the SQL statements generated
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
