@@ -24,14 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/noSecurity/**", "/h2/**", "/h2/login.do").permitAll()
+        httpSecurity.authorizeRequests().antMatchers("/noSecurity/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll();
         // httpSecurity.authorizeRequests().antMatchers("/").permitAll().and()
         //         .authorizeRequests().antMatchers("/h2/**").permitAll();
-        httpSecurity.csrf().disable();
-        httpSecurity.headers().frameOptions().disable();
+        httpSecurity.csrf().ignoringAntMatchers("/h2/**")
+                .and().headers().frameOptions().sameOrigin();
 
     }
 
