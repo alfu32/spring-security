@@ -1,5 +1,12 @@
 server:
-  port: 8080
+  port: 8443
+  http:
+    port: 8080
+  ssl:
+    key-store: src/main/resources/ssl/keystore.p12
+    key-store-password: 123456
+    keyStoreType: PKCS12
+    keyAlias: myselfsigned
 spring:
   thymeleaf:
     cache: false

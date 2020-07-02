@@ -1,8 +1,10 @@
-<html>
-    <head th:replace="fragments/headerAndNav :: header"/>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/headerAndNav :: header"></head>
     <body>
-        <div th:replace="fragments/headerAndNav :: navbar"/>
+        <div th:replace="fragments/headerAndNav :: navbar"></div>
         <div class="container">
             You can only see this, if you are logged in!
+        </div>
     </body>
 </html>

@@ -1,7 +1,8 @@
-<html>
-    <head th:replace="fragments/headerAndNav :: header"/>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head th:replace="fragments/headerAndNav :: header"></head>
     <body>
-        <div th:replace="fragments/headerAndNav :: navbar"/>
+    <div th:replace="fragments/headerAndNav :: navbar"></div>
         <div class="container">
             <div th:if="${user != null}">
                 <h4>User <span th:text="${user.getUsername()}"></span> details</h4>
@@ -43,6 +44,8 @@
                         </tr>
                         <tr>
                             <th scope="row">Granted Authorities</th>
+                        </tr>
+                        <tr>
                             <td>
                                 <table class="table">
                                     <thead>
