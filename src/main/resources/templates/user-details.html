@@ -1,0 +1,66 @@
+<html>
+    <head th:replace="fragments/headerAndNav :: header"/>
+    <body>
+        <div th:replace="fragments/headerAndNav :: navbar"/>
+        <div class="container">
+            <div th:if="${user != null}">
+                <h4>User <span th:text="${user.getUsername()}"></span> details</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Parameter Name</th>
+                            <th scope="col">Parameter Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <td th:text="${user.getId()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Username</th>
+                            <td th:text="${user.getUsername()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Password</th>
+                            <td th:text="${user.getPassword()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Account Non Expired</th>
+                            <td th:text="${user.isAccountNonExpired()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Account Non Locked</th>
+                            <td th:text="${user.isAccountNonLocked()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Credentials Non Expired</th>
+                            <td th:text="${user.isCredentialsNonExpired()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Enabled</th>
+                            <td th:text="${user.isEnabled()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Granted Authorities</th>
+                            <td>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Authority Code</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="grantedAuthority: ${user?.getGrantedAuthorities()}">
+                                        <td scope="row" th:text="${grantedAuthority}" />
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

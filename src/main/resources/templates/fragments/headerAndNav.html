@@ -6,14 +6,15 @@
 <body>
 <nav class="navbar navbar-inverse" th:fragment="navbar">
     <div class="container-fluid" >
-        <div class="navbar-inner" th:with="currentUser=${#httpServletRequest.userPrincipal?.name}">
+        <div class="navbar-inner" th:with="principal=${#httpServletRequest.userPrincipal}">
             <a class="navbar-brand" th:href="@{/}">Home</a>
             <a class="navbar-brand" th:href="@{/noSecurity}">No Security</a>
-            <div th:if="${currentUser != null}">
+            <a class="navbar-brand" th:href="@{/user-details}">User Details</a>
+            <div th:if="${principal != null}">
                 <form class="navbar-form navbar-right" th:action="@{/logout}" method="post">
                     <input type="submit" class="btn btn-primary" value="Logout" />
                 </form>
-                <p class="navbar-text navbar-right" th:text="${currentUser}">
+                <p class="navbar-text navbar-right" th:text="${principal?.name}">
                     example_user
                 </p>
             </div>

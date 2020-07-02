@@ -1,27 +1,43 @@
 package a.b.c.tut.security.umata.config;
 
+import a.b.c.tut.security.umata.security.user.AuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+// @ComponentScan(basePackageClasses = AuthenticatedUserService.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}password").roles("USER","ADMIN");
-    }
+    private AuthenticatedUserService authenticatedUserService;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/noSecurity").permitAll()
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeRequests().antMatchers("/noSecurity/**", "/h2/**", "/h2/login.do").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll();
+        // httpSecurity.authorizeRequests().antMatchers("/").permitAll().and()
+        //         .authorizeRequests().antMatchers("/h2/**").permitAll();
+        httpSecurity.csrf().disable();
+        httpSecurity.headers().frameOptions().disable();
+
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(authenticatedUserService)
+                .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 }
