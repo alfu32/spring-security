@@ -2,6 +2,7 @@ package a.b.c.tut.security.umata.security.user;
 
 import a.b.c.tut.security.umata.entity.User;
 import a.b.c.tut.security.umata.repository.UserRepository;
+import a.b.c.tut.security.umata.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

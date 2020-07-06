@@ -3,15 +3,16 @@ package a.b.c.tut.security.umata.entity;
 import javax.persistence.*;
 
 import a.b.c.tut.security.umata.repository.StringListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Entity
 public class User implements UserDetails {
@@ -37,7 +38,30 @@ public class User implements UserDetails {
 
     @Column
     @Convert(converter = StringListConverter.class)
+    // @JsonIgnore
     private List<String> grantedAuthorities;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    // @JsonManagedReference
+    // @JsonIgnore
+    @JsonIgnoreProperties({"id","users"})
+    private Set<Role> userRoles;
+
+    @JsonProperty
+    // @JsonIgnore
+    public List<String> getRoleScope(){
+        List<String> list = new ArrayList<>();
+        for (Role role : userRoles) {
+            String format = String.format("%s.%s", role.getScope(), role.getRole());
+            list.add(format);
+        }
+        return list;
+    }
+
     protected User(){}
 
     public User(String username, String password){
@@ -113,9 +137,21 @@ public class User implements UserDetails {
         this.grantedAuthorities = grantedAuthorities;
     }
 
+    @Transient
+    public Set<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(String.join(",",this.grantedAuthorities));
+        // return AuthorityUtils.commaSeparatedStringToAuthorityList(String.join(",",grantedAuthorities));
+        List<String> list = new ArrayList<String>(this.grantedAuthorities);
+        list.addAll(getRoleScope());
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(String.join(",",list));
     }
     @Override
     public boolean equals(Object o) {

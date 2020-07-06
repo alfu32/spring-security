@@ -54,7 +54,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="grantedAuthority: ${user?.getGrantedAuthorities()}">
+                                    <tr th:each="grantedAuthority: ${user?.getAuthorities()}">
                                         <td scope="row" th:text="${grantedAuthority}" />
                                     </tr>
                                     </tbody>
